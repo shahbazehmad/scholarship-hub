@@ -1,23 +1,16 @@
 import Link from "next/link";
 import Badge from "./Badge";
-import { ArrowRightIcon, CalendarIcon, GlobeIcon } from "./Icons";
+import CountryFlags from "./CountryFlags";
+import ScholarshipLogo from "./ScholarshipLogo";
+import { ArrowRightIcon, CalendarIcon } from "./Icons";
 import {
   REGION_STYLES,
   daysLeft,
   deadlineLabel,
+  getInitials,
+  getLogoUrl,
   type Scholarship,
 } from "@/lib/scholarships";
-
-function initials(name: string) {
-  return name
-    .replace(/[^A-Za-z\s]/g, "")
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-}
 
 export default function ScholarshipCard({
   scholarship: s,
@@ -31,11 +24,12 @@ export default function ScholarshipCard({
   return (
     <article className="group relative flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-brand-500/40 hover:shadow-xl">
       <div className="flex items-start gap-3">
-        <div
-          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-sm font-bold ${avatar}`}
-        >
-          {initials(s.name)}
-        </div>
+        <ScholarshipLogo
+          src={getLogoUrl(s)}
+          initials={getInitials(s.name)}
+          fallbackClass={avatar}
+          name={s.name}
+        />
         <div className="min-w-0">
           <h3 className="text-base font-semibold leading-snug text-slate-900">
             <Link
@@ -70,9 +64,9 @@ export default function ScholarshipCard({
         {s.description}
       </p>
 
-      <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 text-xs text-slate-500">
-        <span className="flex min-w-0 items-center gap-1">
-          <GlobeIcon className="h-4 w-4 shrink-0" />
+      <div className="mt-5 flex items-center justify-between gap-3 border-t border-slate-100 pt-4 text-xs text-slate-500">
+        <span className="flex min-w-0 items-center gap-2">
+          <CountryFlags scholarship={s} />
           <span className="truncate">{s.country}</span>
         </span>
         <span className="flex shrink-0 items-center gap-1">

@@ -21,6 +21,10 @@ export interface Scholarship {
   tags: string[];
   description: string;
   officialUrl: string;
+  /** Optional explicit logo URL. Takes priority over the automatic site icon. */
+  logo?: string;
+  /** Optional ISO country codes (e.g. ["de", "fr"]) to override flag detection. */
+  countryCodes?: string[];
   autoAdded?: boolean;
   source?: string;
   sourceUrl?: string;
@@ -104,6 +108,33 @@ export function daysLeft(s: Scholarship): number | null {
   if (!s.deadline) return null;
   const end = Date.parse(s.deadline + "T23:59:59Z");
   return Math.max(0, Math.ceil((end - Date.now()) / 86400000));
+}
+
+/**
+ * Logo source: explicit `logo` field first, otherwise the icon of the official
+ * website. Auto-added entries link to an aggregator post, so they get no
+ * automatic icon (it would show the aggregator's logo, not the scholarship's).
+ */
+export function getLogoUrl(s: Scholarship): string | null {
+  if (s.logo) return s.logo;
+  if (s.autoAdded) return null;
+  try {
+    const host = new URL(s.officialUrl).hostname;
+    return `https://www.google.com/s2/favicons?domain=${host}&sz=128`;
+  } catch {
+    return null;
+  }
+}
+
+export function getInitials(name: string): string {
+  return name
+    .replace(/[^A-Za-z\s]/g, "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
 }
 
 export const REGION_STYLES: Record<string, string> = {

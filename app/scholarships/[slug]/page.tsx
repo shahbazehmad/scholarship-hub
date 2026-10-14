@@ -2,12 +2,17 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Badge from "@/components/Badge";
+import CountryFlags from "@/components/CountryFlags";
 import ScholarshipCard from "@/components/ScholarshipCard";
+import ScholarshipLogo from "@/components/ScholarshipLogo";
 import { ExternalIcon } from "@/components/Icons";
 import {
+  REGION_STYLES,
   daysLeft,
   deadlineLabel,
   getAllScholarships,
+  getInitials,
+  getLogoUrl,
   getRelated,
   getScholarshipBySlug,
 } from "@/lib/scholarships";
@@ -45,7 +50,6 @@ export default async function ScholarshipDetailPage({
   const left = daysLeft(s);
   const facts: [string, string][] = [
     ["University / Organization", s.organization],
-    ["Country", s.country],
     ["Region", s.region],
     ["Level of study", s.levels.join(", ")],
     ["Deadline", deadlineLabel(s)],
@@ -62,18 +66,32 @@ export default async function ScholarshipDetailPage({
             <span className="mx-2">/</span>
             <Link href="/scholarships" className="hover:text-white">Scholarships</Link>
           </nav>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Badge variant={s.fundingType === "Fully Funded" ? "funding" : "partial"}>{s.fundingType}</Badge>
-            <Badge variant="type">{s.type}</Badge>
-            {s.levels.map((l) => (
-              <Badge key={l} variant="level">{l}</Badge>
-            ))}
-            {left !== null && left <= 30 && (
-              <Badge variant="urgent">{left === 0 ? "Closes today" : `Closes in ${left} day${left === 1 ? "" : "s"}`}</Badge>
-            )}
+          <div className="mt-5 flex items-start gap-4">
+            <ScholarshipLogo
+              src={getLogoUrl(s)}
+              initials={getInitials(s.name)}
+              fallbackClass={REGION_STYLES[s.region] ?? REGION_STYLES.Global}
+              name={s.name}
+              size="h-16 w-16"
+            />
+            <div className="min-w-0">
+              <div className="flex flex-wrap gap-2">
+                <Badge variant={s.fundingType === "Fully Funded" ? "funding" : "partial"}>{s.fundingType}</Badge>
+                <Badge variant="type">{s.type}</Badge>
+                {s.levels.map((l) => (
+                  <Badge key={l} variant="level">{l}</Badge>
+                ))}
+                {left !== null && left <= 30 && (
+                  <Badge variant="urgent">{left === 0 ? "Closes today" : `Closes in ${left} day${left === 1 ? "" : "s"}`}</Badge>
+                )}
+              </div>
+              <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">{s.name}</h1>
+              <p className="mt-2 flex flex-wrap items-center gap-2 text-lg text-blue-50">
+                <CountryFlags scholarship={s} className="h-5 w-7" />
+                <span>{s.organization} &middot; {s.country}</span>
+              </p>
+            </div>
           </div>
-          <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">{s.name}</h1>
-          <p className="mt-2 text-lg text-blue-50">{s.organization} &middot; {s.country}</p>
         </div>
       </div>
 
@@ -106,6 +124,13 @@ export default async function ScholarshipDetailPage({
         <aside className="h-fit space-y-4 md:sticky md:top-24">
           <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <dl className="space-y-4 text-sm">
+              <div>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">Country</dt>
+                <dd className="mt-1 flex items-center gap-2 text-slate-900">
+                  <CountryFlags scholarship={s} />
+                  <span>{s.country}</span>
+                </dd>
+              </div>
               {facts.map(([label, value]) => (
                 <div key={label}>
                   <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</dt>
