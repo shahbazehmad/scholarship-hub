@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "chevening-scholarship",
+    "name": "Chevening Scholarship",
+    "organization": "UK Foreign, Commonwealth & Development Office",
+    "country": "United Kingdom",
+    "region": "Europe",
+    "levels": ["Master"],
+    "fundingType": "Fully Funded",
+    "funding": "Tuition fees, monthly living stipend, return airfare, visa and arrival allowances.",
+    "deadline": "2027-11-03",
+    "addedAt": "2026-10-10",
+    "featured": true,
+    "tags": ["leadership", "one-year master", "international"],
+    "description": "Chevening is the UK government's international awards programme, offering future leaders the chance to pursue a one-year master's degree at any UK university. Applicants must have at least two years of work experience, meet the eligibility criteria for their country, and apply to three eligible UK courses. Strong applications show leadership potential, networking ability and clear career plans.",
+    "officialUrl": "https://www.chevening.org/scholarships/"
+  },
+  {
+    "slug": "stipendium-hungaricum",
+    "name": "Stipendium Hungaricum Scholarship Programme",
+    "organization": "Tempus Public Foundation",
+    "country": "Hungary",
+    "region": "Europe",
+    "levels": ["Bachelor", "Master", "PhD"],
+    "fundingType": "Fully Funded",
+    "funding": "Tuition waiver, monthly stipend, accommodation contribution and health insurance.",
+    "deadline": "2027-01-15",
+    "addedAt": "2026-10-12",
+    "featured": true,
+    "tags": ["government", "bachelor", "master", "phd"],
+    "description": "The Stipendium Hungaricum programme is funded by the Hungarian government and lets students from partner countries study at Hungarian universities in Bachelor, Master, doctoral and one-tier programmes. Applications are submitted through the Tempus Public Foundation portal and are usually first nominated by the sending country's partner authority. Check the official site for the list of partner countries and each year's call.",
+    "officialUrl": "https://stipendiumhungaricum.hu/"
+  },
+  {
+    "slug": "erasmus-mundus-joint-masters",
+    "name": "Erasmus Mundus Joint Masters",
+    "organization": "European Commission",
+    "country": "Multiple European countries",
+    "region": "Europe",
+    "levels": ["Master"],
+    "fundingType": "Partial",
+    "funding": "Scholarships vary by programme and may cover tuition, travel and living costs; some programmes offer partial awards.",
+    "deadline": "2027-01-31",
+    "addedAt": "2026-10-08",
+    "featured": false,
+    "tags": ["joint degree", "mobility", "EU"],
+    "description": "Erasmus Mundus Joint Masters are international study programmes delivered by a consortium of universities in several countries. Students study in at least two of them and graduate with a joint or multiple degree. Each programme sets its own application deadline and selection process, so apply directly to the programme you choose.",
+    "officialUrl": "https://erasmus-plus.ec.europa.eu/opportunities/opportunities-for-individuals/students/erasmus-mundus-joint-masters"
+  }
+]
