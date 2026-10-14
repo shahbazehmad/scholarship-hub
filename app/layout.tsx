@@ -6,17 +6,17 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: "Scholarship Hub - Find Fully Funded Scholarships",
+    default: "Scholarship Hub - Global Scholarships, Grants & Fellowships",
     template: "%s | Scholarship Hub",
   },
   description:
-    "Discover and compare fully funded and partial scholarships for Bachelor, Master and PhD students worldwide.",
+    "Discover fully funded and partial scholarships, grants and fellowships for Bachelor, Master, PhD and postdoctoral study worldwide.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className="flex min-h-screen flex-col">
+      <body className="flex min-h-screen flex-col font-sans">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
