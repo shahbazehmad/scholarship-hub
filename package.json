@@ -1,12 +1,13 @@
 {
   "name": "scholarship-hub",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "update-listings": "node scripts/update-listings.mjs"
   },
   "dependencies": {
     "next": "^15.0.0",

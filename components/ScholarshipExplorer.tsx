@@ -7,7 +7,10 @@ import SearchFilterBar, { EMPTY_FILTERS, type Filters } from "./SearchFilterBar"
 import { GridIcon, ListIcon } from "./Icons";
 import type { Scholarship } from "@/lib/scholarships";
 
+const PAGE_SIZE = 12;
 const uniq = (arr: string[]) => Array.from(new Set(arr)).sort();
+
+type Sort = "newest" | "name" | "deadline";
 
 export default function ScholarshipExplorer({
   scholarships,
@@ -23,8 +26,14 @@ export default function ScholarshipExplorer({
     country: params.get("country") ?? "",
     funding: params.get("funding") ?? "",
   });
-  const [sort, setSort] = useState<"newest" | "name">("newest");
+  const [sort, setSort] = useState<Sort>("newest");
   const [view, setView] = useState<"grid" | "list">("grid");
+  const [visible, setVisible] = useState(PAGE_SIZE);
+
+  const updateFilters = (f: Filters) => {
+    setFilters(f);
+    setVisible(PAGE_SIZE);
+  };
 
   const types = useMemo(() => uniq(scholarships.map((s) => s.type)), [scholarships]);
   const levels = useMemo(() => uniq(scholarships.flatMap((s) => s.levels)), [scholarships]);
@@ -49,25 +58,33 @@ export default function ScholarshipExplorer({
         s.description,
         s.funding,
         s.eligibility,
+        s.fundingType,
         ...s.tags,
       ]
         .join(" ")
         .toLowerCase();
       return q.split(/\s+/).every((word) => haystack.includes(word));
     });
-    return list.sort((a, b) =>
-      sort === "name"
-        ? a.name.localeCompare(b.name)
-        : b.addedAt.localeCompare(a.addedAt)
-    );
+    return list.sort((a, b) => {
+      if (sort === "name") return a.name.localeCompare(b.name);
+      if (sort === "deadline") {
+        if (!a.deadline && !b.deadline) return 0;
+        if (!a.deadline) return 1;
+        if (!b.deadline) return -1;
+        return a.deadline.localeCompare(b.deadline);
+      }
+      return b.addedAt.localeCompare(a.addedAt);
+    });
   }, [scholarships, filters, sort]);
+
+  const shown = results.slice(0, visible);
 
   return (
     <div className="grid gap-8 lg:grid-cols-[18rem_1fr]">
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <SearchFilterBar
           filters={filters}
-          onChange={setFilters}
+          onChange={updateFilters}
           types={types}
           levels={levels}
           regions={regions}
@@ -83,14 +100,17 @@ export default function ScholarshipExplorer({
             result{results.length === 1 ? "" : "s"}
           </p>
           <div className="flex items-center gap-3">
-            <label htmlFor="sort" className="sr-only">Sort by</label>
+            <label htmlFor="sort" className="sr-only">
+              Sort by
+            </label>
             <select
               id="sort"
               value={sort}
-              onChange={(e) => setSort(e.target.value as "newest" | "name")}
+              onChange={(e) => setSort(e.target.value as Sort)}
               className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
             >
               <option value="newest">Newest first</option>
+              <option value="deadline">Deadline soonest</option>
               <option value="name">Name A-Z</option>
             </select>
             <div className="flex overflow-hidden rounded-lg border border-slate-300 bg-white">
@@ -117,13 +137,24 @@ export default function ScholarshipExplorer({
         </div>
 
         {results.length > 0 ? (
-          <div className={view === "grid" ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-3" : "grid gap-4"}>
-            {results.map((s) => (
-              <div key={s.slug} className="relative">
-                <ScholarshipCard scholarship={s} />
+          <>
+            <div className={view === "grid" ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-3" : "grid gap-4"}>
+              {shown.map((s) => (
+                <ScholarshipCard key={s.slug} scholarship={s} />
+              ))}
+            </div>
+            {visible < results.length && (
+              <div className="mt-8 text-center">
+                <button
+                  type="button"
+                  onClick={() => setVisible((v) => v + PAGE_SIZE)}
+                  className="rounded-lg border border-brand-700 px-6 py-3 text-sm font-semibold text-brand-700 hover:bg-brand-50"
+                >
+                  Show more ({results.length - visible} remaining)
+                </button>
               </div>
-            ))}
-          </div>
+            )}
+          </>
         ) : (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center">
             <p className="font-semibold text-slate-900">No matches found</p>
@@ -132,7 +163,7 @@ export default function ScholarshipExplorer({
             </p>
             <button
               type="button"
-              onClick={() => setFilters(EMPTY_FILTERS)}
+              onClick={() => updateFilters(EMPTY_FILTERS)}
               className="mt-4 rounded-lg bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800"
             >
               Reset filters

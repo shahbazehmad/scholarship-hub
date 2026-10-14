@@ -5,6 +5,7 @@ import Badge from "@/components/Badge";
 import ScholarshipCard from "@/components/ScholarshipCard";
 import { ExternalIcon } from "@/components/Icons";
 import {
+  daysLeft,
   deadlineLabel,
   getAllScholarships,
   getRelated,
@@ -13,6 +14,7 @@ import {
 
 type Params = Promise<{ slug: string }>;
 
+export const revalidate = 3600;
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -40,6 +42,7 @@ export default async function ScholarshipDetailPage({
   if (!s) notFound();
 
   const related = getRelated(s, 3);
+  const left = daysLeft(s);
   const facts: [string, string][] = [
     ["University / Organization", s.organization],
     ["Country", s.country],
@@ -51,9 +54,10 @@ export default async function ScholarshipDetailPage({
 
   return (
     <>
-      <div className="bg-gradient-to-br from-brand-900 to-brand-700 text-white">
-        <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
-          <nav aria-label="Breadcrumb" className="text-sm text-blue-200">
+      <div className="relative overflow-hidden bg-gradient-to-br from-brand-900 to-brand-700 text-white">
+        <div aria-hidden className="hero-pattern pointer-events-none absolute inset-0" />
+        <div className="relative mx-auto max-w-5xl px-4 py-12 sm:px-6">
+          <nav aria-label="Breadcrumb" className="text-sm text-blue-100">
             <Link href="/" className="hover:text-white">Home</Link>
             <span className="mx-2">/</span>
             <Link href="/scholarships" className="hover:text-white">Scholarships</Link>
@@ -64,23 +68,26 @@ export default async function ScholarshipDetailPage({
             {s.levels.map((l) => (
               <Badge key={l} variant="level">{l}</Badge>
             ))}
+            {left !== null && left <= 30 && (
+              <Badge variant="urgent">{left === 0 ? "Closes today" : `Closes in ${left} day${left === 1 ? "" : "s"}`}</Badge>
+            )}
           </div>
           <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">{s.name}</h1>
-          <p className="mt-2 text-lg text-blue-100">{s.organization} &middot; {s.country}</p>
+          <p className="mt-2 text-lg text-blue-50">{s.organization} &middot; {s.country}</p>
         </div>
       </div>
 
       <div className="mx-auto grid max-w-5xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-3">
-        <div className="space-y-8 md:col-span-2">
-          <section className="rounded-2xl border border-slate-200 bg-white p-6">
+        <div className="space-y-6 md:col-span-2">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <h2 className="text-xl font-semibold text-slate-900">About this opportunity</h2>
             <p className="mt-3 leading-relaxed text-slate-700">{s.description}</p>
           </section>
-          <section className="rounded-2xl border border-slate-200 bg-white p-6">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <h2 className="text-xl font-semibold text-slate-900">Funding and coverage</h2>
             <p className="mt-3 leading-relaxed text-slate-700">{s.funding}</p>
           </section>
-          <section className="rounded-2xl border border-slate-200 bg-white p-6">
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
             <h2 className="text-xl font-semibold text-slate-900">Eligibility</h2>
             <p className="mt-3 leading-relaxed text-slate-700">{s.eligibility}</p>
           </section>
@@ -89,6 +96,11 @@ export default async function ScholarshipDetailPage({
             <p className="mt-2 text-amber-900">{s.deadlineNote}</p>
             <p className="mt-2 text-sm text-amber-800">Dates change each year. Confirm on the official website.</p>
           </section>
+          {s.autoAdded && s.source && (
+            <p className="text-sm text-slate-500">
+              This listing was added automatically from {s.source}. Please open the original post to verify the details.
+            </p>
+          )}
         </div>
 
         <aside className="h-fit space-y-4 md:sticky md:top-24">
@@ -105,9 +117,9 @@ export default async function ScholarshipDetailPage({
               href={s.officialUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-brand-700 px-4 py-3 text-center font-semibold text-white shadow-sm hover:bg-brand-800"
+              className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-brand-700 px-4 py-3 text-center font-semibold text-white shadow-sm transition hover:bg-brand-800"
             >
-              Apply Now / Official Source <ExternalIcon className="h-4 w-4" />
+              {s.autoAdded ? "View Original Post" : "Apply Now / Official Source"} <ExternalIcon className="h-4 w-4" />
             </a>
           </div>
         </aside>
@@ -118,9 +130,7 @@ export default async function ScholarshipDetailPage({
           <h2 className="text-2xl font-bold text-slate-900">Related opportunities</h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((r) => (
-              <div key={r.slug} className="relative">
-                <ScholarshipCard scholarship={r} />
-              </div>
+              <ScholarshipCard key={r.slug} scholarship={r} />
             ))}
           </div>
         </section>
