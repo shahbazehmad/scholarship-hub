@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   },
   description:
     "Discover fully funded and partial scholarships, grants and fellowships for Bachelor, Master, PhD and postdoctoral study worldwide.",
+  applicationName: "Scholarship Hub",
+  appleWebApp: { capable: true, title: "Scholarship Hub" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#1e3a8a",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
