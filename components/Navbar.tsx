@@ -1,15 +1,13 @@
 import Link from "next/link";
-import { CapIcon } from "./Icons";
+import Logo from "./Logo";
 
 export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-800 text-white">
-            <CapIcon className="h-5 w-5" />
-          </span>
-          <span className="text-lg font-bold tracking-tight text-brand-900">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6 lg:px-8">
+        <Link href="/" className="flex items-center gap-2.5" aria-label="Scholarship Hub home">
+          <Logo className="h-9 w-11" />
+          <span className="text-xl font-extrabold tracking-tight text-brand-900">
             Scholarship<span className="text-brand-500">Hub</span>
           </span>
         </Link>
@@ -23,7 +21,7 @@ export default function Navbar() {
           <Link href="/scholarships?level=PhD" className="hidden rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100 hover:text-brand-800 md:block">
             PhD
           </Link>
-          <Link href="/scholarships" className="ml-2 rounded-lg bg-brand-700 px-4 py-2 text-white shadow-sm hover:bg-brand-800">
+          <Link href="/scholarships" className="ml-2 rounded-xl bg-gradient-to-b from-brand-600 to-brand-800 px-5 py-2.5 font-semibold text-white shadow-md transition hover:from-brand-700 hover:to-brand-900">
             Browse all
           </Link>
         </div>

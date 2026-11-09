@@ -37,6 +37,12 @@ export const ArrowRightIcon = (p: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+export const ChevronRightIcon = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <path d="m9 18 6-6-6-6" />
+  </svg>
+);
+
 export const ExternalIcon = (p: SVGProps<SVGSVGElement>) => (
   <svg {...base} {...p}>
     <path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
@@ -68,5 +74,31 @@ export const ListIcon = (p: SVGProps<SVGSVGElement>) => (
 export const CheckIcon = (p: SVGProps<SVGSVGElement>) => (
   <svg {...base} {...p}>
     <path d="M20 6 9 17l-5-5" />
+  </svg>
+);
+
+export const FlameIcon = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} fill="currentColor" {...p}>
+    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+  </svg>
+);
+
+export const StarIcon = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} fill="currentColor" {...p}>
+    <path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.9-6.2-3.3-6.2 3.3L7 14.2 2 9.3l6.9-1L12 2Z" />
+  </svg>
+);
+
+export const BriefcaseIcon = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} fill="currentColor" {...p}>
+    <path d="M10 3a2 2 0 0 0-2 2v1H4a2 2 0 0 0-2 2v4h20V8a2 2 0 0 0-2-2h-4V5a2 2 0 0 0-2-2h-4Zm0 2h4v1h-4V5Z" stroke="none" />
+    <path d="M2 14v5a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5h-8v1.5h-4V14H2Z" stroke="none" />
+  </svg>
+);
+
+export const PinIcon = (p: SVGProps<SVGSVGElement>) => (
+  <svg {...base} {...p}>
+    <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z" />
+    <circle cx="12" cy="10" r="3" />
   </svg>
 );
