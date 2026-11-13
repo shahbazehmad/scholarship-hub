@@ -4465,37 +4465,6 @@
     "sourceUrl": "https://www.scholars4dev.com/benjamin-a-gilman-international-scholarship/"
   },
   {
-    "slug": "daad-in-country-in-region-scholarships-for-sub-saharan-africans",
-    "name": "DAAD In-Country/In-Region Scholarships for Sub-Saharan Africans",
-    "organization": "Scholars4Dev",
-    "country": "Multiple",
-    "region": "Global",
-    "type": "Scholarship",
-    "levels": [
-      "Bachelor",
-      "Master"
-    ],
-    "fundingType": "Partial",
-    "funding": "See the original listing for funding details.",
-    "deadline": "2026-11-12",
-    "deadlineNote": "Taken from the source listing; confirm on the official site.",
-    "eligibility": "See the original listing for eligibility.",
-    "addedAt": "2026-11-10",
-    "featured": false,
-    "tags": [
-      "africa",
-      "africans",
-      "agriculture, forestry, and fisheries",
-      "annual",
-      "economics & finance"
-    ],
-    "description": "DAAD Masters Degree Deadline: 12 Nov 2026 (annual) Study in: Sub-Saharan Africa Course starts 2027 Brief description: The DAAD In-Country/In-Region Programme gives scholarships for development-related Master's studies at selected universities in Sub-Saharan Africa. It is for peop... (Summary of a listing found on Scholars4Dev.)",
-    "officialUrl": "https://www.scholars4dev.com/drd-scholarships-for-sub-saharan-africans/",
-    "autoAdded": true,
-    "source": "Scholars4Dev",
-    "sourceUrl": "https://www.scholars4dev.com/drd-scholarships-for-sub-saharan-africans/"
-  },
-  {
     "slug": "australia-awards-masters-scholarships-for-africa",
     "name": "Australia Awards Masters Scholarships for Africa",
     "organization": "Scholars4Dev",
@@ -4945,5 +4914,458 @@
     "autoAdded": true,
     "source": "Opportunity Desk",
     "sourceUrl": "https://opportunitydesk.org/2026/11/11/pladis-accelerator-programme-2026/"
+  },
+  {
+    "slug": "ucla-library-special-collections-lsc-research-fellowships-2027-funded",
+    "name": "UCLA Library Special Collections (LSC) Research Fellowships 2027 (Funded)",
+    "organization": "Opportunity Desk",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Other"
+    ],
+    "fundingType": "Partial",
+    "funding": "See the original listing for funding details.",
+    "deadline": "2026-12-01",
+    "deadlineNote": "Taken from the source listing; confirm on the official site.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "america",
+      "fellowships",
+      "ucla library special collections",
+      "ucla library special collections (lsc) research fellowships",
+      "ucla library special collections (lsc) research fellowships 2027"
+    ],
+    "description": "Deadline: December 1, 2026 Applications are open for the UCLA Library Special Collections (LSC) Research Fellowships 2027. UCLA Library Special Collections (LSC) Research Fellowships provide one-time funding disbursements to help defray travel and other research-related expenses (Summary of a listing found on Opportunity Desk.)",
+    "officialUrl": "https://opportunitydesk.org/2026/11/12/ucla-library-special-collections-research-fellowships-2027/",
+    "autoAdded": true,
+    "source": "Opportunity Desk",
+    "sourceUrl": "https://opportunitydesk.org/2026/11/12/ucla-library-special-collections-research-fellowships-2027/"
+  },
+  {
+    "slug": "ashoka-young-changemakers-program-nigeria-2027",
+    "name": "Ashoka Young Changemakers Program – Nigeria 2027",
+    "organization": "Opportunity Desk",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Other"
+    ],
+    "fundingType": "Partial",
+    "funding": "See the original listing for funding details.",
+    "deadline": null,
+    "deadlineNote": "No deadline found automatically; check the original post.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "africa",
+      "fellowships",
+      "ashoka young changemakers",
+      "ashoka young changemakers program",
+      "ashoka young changemakers program - nigeria 2027"
+    ],
+    "description": "Deadline: Unspecified Applications are open for the Ashoka Young Changemakers Program – Nigeria 2027. Ashoka Anglophone West Africa is seeking young people in Nigeria who have found their power to create change for the good of all, and who are engaging their peers and the entire (Summary of a listing found on Opportunity Desk.)",
+    "officialUrl": "https://opportunitydesk.org/2026/11/12/ashoka-young-changemakers-program-nigeria-2027/",
+    "autoAdded": true,
+    "source": "Opportunity Desk",
+    "sourceUrl": "https://opportunitydesk.org/2026/11/12/ashoka-young-changemakers-program-nigeria-2027/"
+  },
+  {
+    "slug": "e-just-ticad9-african-scholarship-for-sti-fall-2027",
+    "name": "E-JUST TICAD9 African Scholarship for STI – Fall 2027",
+    "organization": "Opportunity Desk",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Scholarship",
+    "levels": [
+      "Master",
+      "PhD",
+      "Postdoc"
+    ],
+    "fundingType": "Partial",
+    "funding": "See the original listing for funding details.",
+    "deadline": null,
+    "deadlineNote": "No deadline found automatically; check the original post.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "africa",
+      "masters/postgraduate",
+      "phd/postdoctoral",
+      "scholarships",
+      "e-just ticad9 african scholarship for sti"
+    ],
+    "description": "Deadline: Unspecified Applications are open for the E-JUST TICAD9 African Scholarship for STI – Fall 2027. E-JUST offers “E-JUST TICAD9 African Scholarship for STI” – i.e. TICAD9 Scholarships to develop high-quality human resources in the field of STI (Science, Technology and Inn... (Summary of a listing found on Opportunity Desk.)",
+    "officialUrl": "https://opportunitydesk.org/2026/11/12/e-just-ticad9-african-scholarship-for-sti-fall-2027/",
+    "autoAdded": true,
+    "source": "Opportunity Desk",
+    "sourceUrl": "https://opportunitydesk.org/2026/11/12/e-just-ticad9-african-scholarship-for-sti-fall-2027/"
+  },
+  {
+    "slug": "dsti-nrf-policy-fellowship-programme-2027-funded",
+    "name": "DSTI-NRF Policy Fellowship Programme 2027 (Funded)",
+    "organization": "Opportunity Desk",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Other"
+    ],
+    "fundingType": "Partial",
+    "funding": "See the original listing for funding details.",
+    "deadline": "2026-11-17",
+    "deadlineNote": "Taken from the source listing; confirm on the official site.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "africa",
+      "fellowships",
+      "dsti-nrf policy fellowship programme",
+      "dsti-nrf policy fellowship programme 2027",
+      "dsti-nrf-policy-fellowship-programme-2027 apply"
+    ],
+    "description": "Deadline: November 17, 2026 Applications are open for the DSTI-NRF Policy Fellowship Programme 2027. The National Research Foundation (NRF), in partnership with the Department of Science, Technology and Innovation (DSTI), invites eligible early- and mid-career researchers to appl... (Summary of a listing found on Opportunity Desk.)",
+    "officialUrl": "https://opportunitydesk.org/2026/11/12/dsti-nrf-policy-fellowship-programme-2027/",
+    "autoAdded": true,
+    "source": "Opportunity Desk",
+    "sourceUrl": "https://opportunitydesk.org/2026/11/12/dsti-nrf-policy-fellowship-programme-2027/"
+  },
+  {
+    "slug": "gratitude-network-fellowship-2027",
+    "name": "Gratitude Network Fellowship 2027",
+    "organization": "Opportunity Desk",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Other"
+    ],
+    "fundingType": "Partial",
+    "funding": "See the original listing for funding details.",
+    "deadline": "2027-01-15",
+    "deadlineNote": "Taken from the source listing; confirm on the official site.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "africa",
+      "america",
+      "asia",
+      "australia and oceania",
+      "europe"
+    ],
+    "description": "Deadline: January 15, 2027 Applications are invited for the Gratitude Network Fellowship 2027. The Gratitude Network Fellowship is a highly selective, 13 month program designed to accelerate the growth and impact of ambitious nonprofit leaders and their organizations. Each year, (Summary of a listing found on Opportunity Desk.)",
+    "officialUrl": "https://opportunitydesk.org/2026/11/12/gratitude-network-fellowship-2027/",
+    "autoAdded": true,
+    "source": "Opportunity Desk",
+    "sourceUrl": "https://opportunitydesk.org/2026/11/12/gratitude-network-fellowship-2027/"
+  },
+  {
+    "slug": "allpeoplebehappy-volunteer-service-award-program-2027-funded",
+    "name": "AllPeopleBeHappy Volunteer Service Award Program 2027 (Funded)",
+    "organization": "Opportunity Desk",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Other"
+    ],
+    "fundingType": "Partial",
+    "funding": "See the original listing for funding details.",
+    "deadline": "2026-11-15",
+    "deadlineNote": "Taken from the source listing; confirm on the official site.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "america",
+      "fellowships",
+      "allpeoplebehappy",
+      "allpeoplebehappy volunteer service award program",
+      "allpeoplebehappy volunteer service award program 2027"
+    ],
+    "description": "Deadline: November 15, 2026 Applications are open for the AllPeopleBeHappy Volunteer Service Award Program 2027. AllPeopleBeHappy is proud to launch their second year Volunteer Service Award program, open to any individuals 18 years of age and older who are interested in cultural... (Summary of a listing found on Opportunity Desk.)",
+    "officialUrl": "https://opportunitydesk.org/2026/11/12/allpeoplebehappy-volunteer-service-award-program-2027/",
+    "autoAdded": true,
+    "source": "Opportunity Desk",
+    "sourceUrl": "https://opportunitydesk.org/2026/11/12/allpeoplebehappy-volunteer-service-award-program-2027/"
+  },
+  {
+    "slug": "thrive-capital-summer-fellowship-2027-100-000-salary",
+    "name": "Thrive Capital Summer Fellowship 2027 ($100,000 salary)",
+    "organization": "Opportunity Desk",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Other"
+    ],
+    "fundingType": "Partial",
+    "funding": "See the original listing for funding details.",
+    "deadline": "2026-12-11",
+    "deadlineNote": "Taken from the source listing; confirm on the official site.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "america",
+      "fellowships",
+      "thrive capital",
+      "thrive capital summer fellowship",
+      "thrive capital summer fellowship 2027"
+    ],
+    "description": "Deadline: December 11, 2026 Applications are invited for the Thrive Capital Summer Fellowship 2027. The Fellowship is an opportunity for exceptional college students to pursue their own curiosities, develop conviction in their ideas, with support from the people and collective re... (Summary of a listing found on Opportunity Desk.)",
+    "officialUrl": "https://opportunitydesk.org/2026/11/12/thrive-capital-summer-fellowship-2027/",
+    "autoAdded": true,
+    "source": "Opportunity Desk",
+    "sourceUrl": "https://opportunitydesk.org/2026/11/12/thrive-capital-summer-fellowship-2027/"
+  },
+  {
+    "slug": "jodi-harris-scholarship-2027-for-emerging-marketing-leaders",
+    "name": "Jodi Harris Scholarship 2027 for Emerging Marketing Leaders",
+    "organization": "Opportunity Desk",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Scholarship",
+    "levels": [
+      "Other"
+    ],
+    "fundingType": "Fully Funded",
+    "funding": "See the original listing for funding details.",
+    "deadline": "2027-12-04",
+    "deadlineNote": "Taken from the source listing; confirm on the official site.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "africa",
+      "america",
+      "asia",
+      "australia and oceania",
+      "europe"
+    ],
+    "description": "Deadline: December 4, 2027 Applications are open for the Jodi Harris Scholarship 2027. They are accepting 10 emerging marketing leaders back into the Scholarship this year alongside the team at AB InBev. Offering a fully-funded, curated programme – including exclusive sessions wi... (Summary of a listing found on Opportunity Desk.)",
+    "officialUrl": "https://opportunitydesk.org/2026/11/12/jodi-harris-scholarship-2027/",
+    "autoAdded": true,
+    "source": "Opportunity Desk",
+    "sourceUrl": "https://opportunitydesk.org/2026/11/12/jodi-harris-scholarship-2027/"
+  },
+  {
+    "slug": "iwmf-kim-wall-memorial-fund-2027-up-to-5-000",
+    "name": "IWMF Kim Wall Memorial Fund 2027 (up to $5,000)",
+    "organization": "Opportunity Desk",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Grant",
+    "levels": [
+      "Other"
+    ],
+    "fundingType": "Partial",
+    "funding": "See the original listing for funding details.",
+    "deadline": "2026-12-06",
+    "deadlineNote": "Taken from the source listing; confirm on the official site.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "africa",
+      "america",
+      "asia",
+      "australia and oceania",
+      "europe"
+    ],
+    "description": "Deadline: December 6, 2026 Applications are open for the Kim Wall Memorial Fund 2027. The IWMF's Kim Wall Memorial Fund will provide $5,000 grants to journalists whose work embodies the spirit of Kim’s reporting. The grant will fund women or nonbinary reporters covering subcultur... (Summary of a listing found on Opportunity Desk.)",
+    "officialUrl": "https://opportunitydesk.org/2026/11/12/iwmf-kim-wall-memorial-fund-2027/",
+    "autoAdded": true,
+    "source": "Opportunity Desk",
+    "sourceUrl": "https://opportunitydesk.org/2026/11/12/iwmf-kim-wall-memorial-fund-2027/"
+  },
+  {
+    "slug": "top-15-scholarships-in-usa-for-international-students",
+    "name": "Top 15+ Scholarships in USA for International Students",
+    "organization": "Scholars4Dev",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Bachelor",
+      "Master",
+      "PhD"
+    ],
+    "fundingType": "Fully Funded",
+    "funding": "See the original listing for funding details.",
+    "deadline": null,
+    "deadlineNote": "No deadline found automatically; check the original post.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "list of",
+      "usa",
+      "list of scholarships",
+      "scholarship guides"
+    ],
+    "description": "©iStock.com/andresrimaging The United States is home to many of the world's top universities, but studying there is expensive, with tuition at private colleges often above US$60,000 a year. To help you, scholars4dev.com lists the top scholarships in USA for international students... (Summary of a listing found on Scholars4Dev.)",
+    "officialUrl": "https://www.scholars4dev.com/scholarships-in-usa-for-international-students/",
+    "autoAdded": true,
+    "source": "Scholars4Dev",
+    "sourceUrl": "https://www.scholars4dev.com/scholarships-in-usa-for-international-students/"
+  },
+  {
+    "slug": "top-10-scholarships-in-canada-for-international-students",
+    "name": "Top 10+ Scholarships in Canada for International Students",
+    "organization": "Scholars4Dev",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Bachelor",
+      "Master",
+      "PhD"
+    ],
+    "fundingType": "Fully Funded",
+    "funding": "See the original listing for funding details.",
+    "deadline": null,
+    "deadlineNote": "No deadline found automatically; check the original post.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "canada",
+      "list of",
+      "editors",
+      "list of scholarships",
+      "scholarship guides"
+    ],
+    "description": "©iStock.com/scibak Canada has fewer scholarships for international students than the USA or the UK, and international tuition is high, often CA$30,000 to CA$40,000 a year or more for a Bachelor's degree. To help you, scholars4dev.com lists the top Canada scholarships for internat... (Summary of a listing found on Scholars4Dev.)",
+    "officialUrl": "https://www.scholars4dev.com/scholarships-canada-international-students/",
+    "autoAdded": true,
+    "source": "Scholars4Dev",
+    "sourceUrl": "https://www.scholars4dev.com/scholarships-canada-international-students/"
+  },
+  {
+    "slug": "top-20-international-scholarships-for-development-related-studies",
+    "name": "Top 20+ International Scholarships for Development-Related Studies",
+    "organization": "Scholars4Dev",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Bachelor",
+      "Master",
+      "PhD"
+    ],
+    "fundingType": "Fully Funded",
+    "funding": "See the original listing for funding details.",
+    "deadline": "2026-12-08",
+    "deadlineNote": "Taken from the source listing; confirm on the official site.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "list of",
+      "list of scholarships"
+    ],
+    "description": "©iStock.com/loops7 Many scholarships support development-related studies such as agriculture, education, global health, the environment, public policy, peace, and water and sanitation. They are offered by universities, foreign governments and international organisations, and some... (Summary of a listing found on Scholars4Dev.)",
+    "officialUrl": "https://www.scholars4dev.com/scholarships-in-development-related-studies-for-international-students/",
+    "autoAdded": true,
+    "source": "Scholars4Dev",
+    "sourceUrl": "https://www.scholars4dev.com/scholarships-in-development-related-studies-for-international-students/"
+  },
+  {
+    "slug": "top-10-international-scholarships-for-women",
+    "name": "Top 10+ International Scholarships for Women",
+    "organization": "Scholars4Dev",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Master",
+      "PhD",
+      "Postdoc"
+    ],
+    "fundingType": "Fully Funded",
+    "funding": "See the original listing for funding details.",
+    "deadline": null,
+    "deadlineNote": "No deadline found automatically; check the original post.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "featured",
+      "list of",
+      "women",
+      "list of scholarships"
+    ],
+    "description": "©iStock.com/3dfoto Scholarships and fellowships help women pursue higher education and research in fields such as science, engineering, business, finance, health, peace and international development. scholars4dev.com presents a list of the top 10+ international scholarships for w... (Summary of a listing found on Scholars4Dev.)",
+    "officialUrl": "https://www.scholars4dev.com/international-scholarships-for-women/",
+    "autoAdded": true,
+    "source": "Scholars4Dev",
+    "sourceUrl": "https://www.scholars4dev.com/international-scholarships-for-women/"
+  },
+  {
+    "slug": "top-10-prestigious-scholarships-for-the-best-international-students",
+    "name": "Top 10+ Prestigious Scholarships for the Best International Students",
+    "organization": "Scholars4Dev",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Bachelor",
+      "Master",
+      "PhD"
+    ],
+    "fundingType": "Fully Funded",
+    "funding": "See the original listing for funding details.",
+    "deadline": null,
+    "deadlineNote": "No deadline found automatically; check the original post.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "list of",
+      "list of scholarships"
+    ],
+    "description": "©iStock.com/daz2d If you are a bright, talented and motivated international student, some of the world's most prestigious scholarships are open to you. Below, scholars4dev.com lists the most prestigious international scholarships for the best students from around the world, from (Summary of a listing found on Scholars4Dev.)",
+    "officialUrl": "https://www.scholars4dev.com/top-10-scholarships-for-international-students/",
+    "autoAdded": true,
+    "source": "Scholars4Dev",
+    "sourceUrl": "https://www.scholars4dev.com/top-10-scholarships-for-international-students/"
+  },
+  {
+    "slug": "top-15-excellence-scholarships-for-outstanding-international-students",
+    "name": "Top 15+ Excellence Scholarships for Outstanding International Students",
+    "organization": "Scholars4Dev",
+    "country": "Multiple",
+    "region": "Global",
+    "type": "Fellowship",
+    "levels": [
+      "Bachelor",
+      "Master",
+      "PhD"
+    ],
+    "fundingType": "Fully Funded",
+    "funding": "See the original listing for funding details.",
+    "deadline": null,
+    "deadlineNote": "No deadline found automatically; check the original post.",
+    "eligibility": "See the original listing for eligibility.",
+    "addedAt": "2026-11-13",
+    "featured": false,
+    "tags": [
+      "list of",
+      "list of scholarships"
+    ],
+    "description": "©iStock.com/daz2d Excellence scholarships, also called merit-based scholarships , go to the brightest and most talented students, chosen for their academic results, leadership or other achievements. Below, scholars4dev.com lists the top excellence scholarships for international s... (Summary of a listing found on Scholars4Dev.)",
+    "officialUrl": "https://www.scholars4dev.com/merit-based-scholarships-for-international-students/",
+    "autoAdded": true,
+    "source": "Scholars4Dev",
+    "sourceUrl": "https://www.scholars4dev.com/merit-based-scholarships-for-international-students/"
   }
 ]
