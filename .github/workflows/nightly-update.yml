@@ -1,34 +1,34 @@
-name: Nightly listings update
-
+name: Manual non-destructive discovery
 on:
-  schedule:
-    - cron: "0 1 * * *"
   workflow_dispatch:
-
+    inputs:
+      apply:
+        description: Write pending candidates to the configured isolated database
+        type: boolean
+        default: false
 permissions:
-  contents: write
-
+  contents: read
+concurrency:
+  group: scholarship-discovery
+  cancel-in-progress: false
 jobs:
-  update:
+  discover:
     runs-on: ubuntu-latest
+    environment: ingestion-preview
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Update listings
-        run: node scripts/update-listings.mjs
-
-      - name: Commit changes
-        run: |
-          if [[ -n "$(git status --porcelain data)" ]]; then
-            git config user.name "scholarship-hub-bot"
-            git config user.email "actions@users.noreply.github.com"
-            git add data/scholarships.json
-            git commit -m "chore: nightly listings update $(date -u +%F)"
-            git push
-          else
-            echo "No changes"
-          fi
+      - run: npm install
+      - name: Validate discovery code
+        run: node --test scripts/completion.test.mjs
+      - name: Plan without network or database access
+        if: ${{ !inputs.apply }}
+        run: node scripts/collect-opportunities.mjs --plan
+      - name: Collect pending candidates
+        if: ${{ inputs.apply }}
+        env:
+          DATABASE_INGEST_URL: ${{ secrets.DATABASE_INGEST_URL }}
+        run: node scripts/collect-opportunities.mjs --apply

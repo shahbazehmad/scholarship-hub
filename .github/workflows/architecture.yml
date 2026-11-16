@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - run: npm run test:migration
-      - run: npm run test:architecture
+      - run: node --test scripts/*.test.mjs
+      - run: node scripts/collect-opportunities.mjs --plan
       - run: npm run typecheck
       - run: npm run build
