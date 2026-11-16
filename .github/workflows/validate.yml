@@ -1,0 +1,95 @@
+name: Validate migration and application
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  migration-tests:
+    name: Legacy normalization tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run dependency-free normalization tests
+        shell: bash
+        run: |
+          set -o pipefail
+          node --test scripts/legacy-normalize.test.mjs 2>&1 | tee migration-tests.txt
+      - name: Preserve test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: migration-tests-${{ github.run_id }}-${{ github.run_attempt }}
+          path: migration-tests.txt
+          retention-days: 14
+          if-no-files-found: ignore
+
+  migration-plan:
+    name: Validate current JSON without database access
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate source records and calculate input fingerprint
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/import-legacy.mjs 2>&1 | tee migration-plan.txt
+      - name: Preserve migration plan
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: migration-plan-${{ github.run_id }}-${{ github.run_attempt }}
+          path: migration-plan.txt
+          retention-days: 14
+          if-no-files-found: ignore
+
+  production-build:
+    name: Next.js production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        shell: bash
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+      - name: Build application
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee production-build.txt
+      - name: Preserve build output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-build-${{ github.run_id }}-${{ github.run_attempt }}
+          path: production-build.txt
+          retention-days: 14
+          if-no-files-found: ignore
