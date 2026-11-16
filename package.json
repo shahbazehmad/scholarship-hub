@@ -1,19 +1,22 @@
 {
   "name": "scholarship-hub",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "update-listings": "node scripts/update-listings.mjs",
     "migration:plan": "node scripts/import-legacy.mjs",
     "migration:apply": "node scripts/import-legacy.mjs --apply",
-    "test:migration": "node --test scripts/legacy-normalize.test.mjs"
+    "test:migration": "node --test scripts/legacy-normalize.test.mjs",
+    "test:architecture": "node --test scripts/architecture.test.mjs"
   },
   "dependencies": {
     "next": "^15.0.0",
+    "next-auth": "4.24.15",
     "pg": "^8.16.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

@@ -1,0 +1,6 @@
+import Link from 'next/link';
+import {listReviewQueue} from '@/lib/server/admin';
+export default async function AdminPage({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}){
+  const p=await searchParams,r=await listReviewQueue(String(p.status??'pending'),Number(p.page??1));
+  return <><p>Role: {r.admin.role}. {r.total} {r.status} records.</p><Link href="/admin/observations">Review collected source observations</Link><nav className="flex gap-4">{['pending','approved','rejected'].map(s=><Link key={s} href={`/admin?status=${s}`}>{s}</Link>)}</nav><div className="divide-y rounded border">{r.items.map(o=><article key={o.id} className="space-y-2 p-4"><h2 className="font-semibold">{o.title}</h2><p>{o.review_status} · {o.verification_status}</p><p className="break-all text-sm">UUID: {o.id}</p><div className="flex gap-5"><Link href={`/admin/opportunities/${o.id}`}>Review and evidence</Link><Link href={`/admin/opportunities/${o.id}/edit`}>Structured details and duplicates</Link></div></article>)}</div>{!r.items.length&&<p>No matching records.</p>}<nav className="flex gap-6">{r.page>1&&<Link href={`/admin?status=${r.status}&page=${r.page-1}`}>Previous</Link>}{r.page*25<r.total&&<Link href={`/admin?status=${r.status}&page=${r.page+1}`}>Next</Link>}</nav></>;
+}
