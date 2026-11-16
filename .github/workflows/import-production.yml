@@ -1,0 +1,78 @@
+name: Neon production import
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'Type IMPORT-REHEARSED-SNAPSHOT to import pending records into production'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: neon-production-import
+  cancel-in-progress: false
+
+jobs:
+  import:
+    if: github.ref == 'refs/heads/main' && inputs.confirmation == 'IMPORT-REHEARSED-SNAPSHOT'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 1bef5c84e702525225737d25ac3ae3a8f9c664c9
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install tested dependency manifest
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+      - name: Run normalization tests
+        run: npm run test:migration
+      - name: Restore rehearsed JSON snapshot
+        run: git show fdd4e4e731f8e029fd5e7c7a2197a585bafdc210:data/scholarships.json > data/scholarships.json
+      - name: Validate snapshot
+        run: npm run migration:plan
+      - name: Import and reconcile production records
+        env:
+          DATABASE_URL: ${{ secrets.NEON_PRODUCTION_DATABASE_URL }}
+        run: |
+          node --input-type=module <<'NODE'
+          import pg from 'pg';
+          import { spawnSync } from 'node:child_process';
+          import { readFile, appendFile } from 'node:fs/promises';
+          import assert from 'node:assert/strict';
+          let u;
+          try { u = new URL(process.env.DATABASE_URL || ''); } catch { throw new Error('Set NEON_PRODUCTION_DATABASE_URL as a private repository Actions secret'); }
+          const hosts=['ep-dark-tooth-b9e29za3.c-7.eu-central-1.aws.neon.tech','ep-dark-tooth-b9e29za3-pooler.c-7.eu-central-1.aws.neon.tech'];
+          if (!['postgres:','postgresql:'].includes(u.protocol) || !hosts.includes(u.hostname) || u.pathname !== '/scholarship_hub' || (u.port && u.port !== '5432')) throw new Error('Production endpoint guard failed');
+          if (!['require','verify-ca','verify-full'].includes(u.searchParams.get('sslmode'))) throw new Error('TLS is required');
+          if (['host','hostaddr','port','dbname','service','ssl'].some(k=>u.searchParams.has(k))) throw new Error('Connection overrides forbidden');
+          const result=spawnSync(process.execPath,['scripts/import-legacy.mjs','--apply'],{stdio:'inherit',env:process.env});
+          if (result.error || result.status !== 0) throw new Error('Import failed; inspect migration logs');
+          const input=JSON.parse(await readFile('data/scholarships.json','utf8'));
+          const c=new pg.Client({connectionString:process.env.DATABASE_URL,connectionTimeoutMillis:15000,statement_timeout:60000});
+          try {
+            await c.connect();
+            const rows=await c.query('SELECT slug,legacy_record,review_status,verification_status FROM opportunities WHERE slug=ANY($1::text[])',[input.map(r=>r.slug)]);
+            assert.equal(rows.rowCount,input.length);
+            const map=new Map(rows.rows.map(r=>[r.slug,r]));
+            for(const original of input) {
+              const row=map.get(original.slug);
+              assert.deepEqual(row.legacy_record,original);
+              assert.equal(row.review_status,'pending');
+              assert.equal(row.verification_status,'needs_review');
+            }
+            const text=`## Production import reconciled\n\nRecords: ${input.length}\n\nSource snapshot: fdd4e4e731f8e029fd5e7c7a2197a585bafdc210\n\nAll original records preserved and pending review. Website reads remain unchanged.\n`;
+            console.log(text);
+            if(process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY,text);
+          } catch {
+            console.error('Post-import verification failed. Import may already be committed; do not switch the website.');
+            process.exitCode=1;
+          } finally { await c.end(); }
+          NODE
