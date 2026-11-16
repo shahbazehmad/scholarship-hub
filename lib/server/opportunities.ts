@@ -28,7 +28,7 @@ function getPool() {
   if (!connectionString) throw new Error('Public database reader is not configured');
   let url: URL;
   try { url = new URL(connectionString); } catch { throw new Error('Invalid reader configuration'); }
-  if (!['postgres:', 'postgresql:'].includes(url.protocol) || !['require','verify-ca','verify-full'].includes(url.searchParams.get('sslmode'))) throw new Error('Reader requires a TLS PostgreSQL connection');
+  if (!['postgres:', 'postgresql:'].includes(url.protocol) || !['require','verify-ca','verify-full'].includes(url.searchParams.get('sslmode') ?? '')) throw new Error('Reader requires a TLS PostgreSQL connection');
   pool = new Pool({ connectionString, max: 3, idleTimeoutMillis: 10000, connectionTimeoutMillis: 15000, statement_timeout: 10000, application_name: 'scholarship-hub-public' });
   pool.on('error', () => console.error('Public database pool error'));
   return pool;
