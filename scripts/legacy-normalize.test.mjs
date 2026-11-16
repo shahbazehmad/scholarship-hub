@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { normalizeLegacy, httpUrl } from './legacy-normalize.mjs';
+const example = { slug:'example', name:'Example scholarship', officialUrl:'https://example.edu/award', fundingType:'Fully Funded', levels:['PhD'], deadline:'2027-01-15', autoAdded:true, organization:'Aggregator', description:'Original text' };
+test('preserves the complete original record', () => { assert.deepEqual(normalizeLegacy(example).legacy_record, example); });
+test('does not promote guessed funding, level, employer or application URL', () => { const r=normalizeLegacy(example); assert.deepEqual(r.funding_categories,[]); assert.deepEqual(r.levels,[]); assert.equal(r.institution_name,null); assert.equal(r.application_url,undefined); });
+test('retains unverified deadline without inventing precision', () => { const r=normalizeLegacy(example); assert.equal(r.application_details.legacyDeadline,example.deadline); assert.equal(r.deadline_at,undefined); });
+test('rejects missing traceable sources', () => { assert.throws(() => normalizeLegacy({...example,officialUrl:null})); });
+test('rejects executable and credential-bearing URLs', () => { assert.equal(httpUrl('javascript:alert(1)'),null); assert.equal(httpUrl('https://user:password@example.org'),null); });
+test('preserves local logos and explicit flags', () => { const r=normalizeLegacy({...example,logo:'/logos/award.svg',countryCodes:['de','invalid']}); assert.equal(r.logo_url,'/logos/award.svg'); assert.deepEqual(r.country_codes,['DE']); });
