@@ -1,0 +1,89 @@
+name: Neon import rehearsal
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: neon-import-rehearsal
+  cancel-in-progress: false
+
+jobs:
+  rehearse:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DATABASE_URL: ${{ secrets.NEON_REHEARSAL_DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Guard test endpoint and database
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          if (!process.env.DATABASE_URL) throw new Error('Add NEON_REHEARSAL_DATABASE_URL in repository Actions secrets');
+          let u;
+          try { u = new URL(process.env.DATABASE_URL); } catch { throw new Error('Invalid database connection URL'); }
+          const allowed = ['ep-rapid-scene-b9p289zy.c-7.eu-central-1.aws.neon.tech','ep-rapid-scene-b9p289zy-pooler.c-7.eu-central-1.aws.neon.tech'];
+          if (!['postgres:', 'postgresql:'].includes(u.protocol) || !allowed.includes(u.hostname) || u.pathname !== '/scholarship_hub' || (u.port && u.port !== '5432')) throw new Error('Refusing any target other than migration-rehearsal');
+          if (!['require','verify-ca','verify-full'].includes(u.searchParams.get('sslmode'))) throw new Error('TLS must be enabled');
+          if (['host','hostaddr','port','dbname','service','ssl'].some(k => u.searchParams.has(k))) throw new Error('Connection overrides are not allowed');
+          console.log('Approved rehearsal endpoint and database');
+          NODE
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+      - name: Run normalization tests
+        run: npm run test:migration
+      - name: Use the validated source snapshot
+        run: git show fdd4e4e731f8e029fd5e7c7a2197a585bafdc210:data/scholarships.json > data/scholarships.json
+      - name: Validate snapshot and print fingerprint
+        run: npm run migration:plan
+      - name: First test import
+        run: npm run migration:apply
+      - name: Record first-pass counts
+        run: |
+          node --input-type=module <<'NODE'
+          import pg from 'pg';
+          import { writeFile } from 'node:fs/promises';
+          const c = new pg.Client({connectionString:process.env.DATABASE_URL, connectionTimeoutMillis:15000, statement_timeout:60000});
+          try {
+            await c.connect();
+            const r = await c.query('SELECT (SELECT count(*) FROM opportunities) AS opportunities, (SELECT count(*) FROM opportunity_revisions) AS revisions');
+            await writeFile('/tmp/rehearsal-counts.json', JSON.stringify(r.rows[0]));
+          } catch { console.error('Failed to capture test database counts'); process.exitCode=1; } finally { await c.end(); }
+          NODE
+      - name: Repeat import to test idempotency
+        run: npm run migration:apply
+      - name: Verify counts and original records
+        run: |
+          node --input-type=module <<'NODE'
+          import pg from 'pg';
+          import assert from 'node:assert/strict';
+          import { readFile, appendFile } from 'node:fs/promises';
+          const input=JSON.parse(await readFile('data/scholarships.json','utf8'));
+          const before=JSON.parse(await readFile('/tmp/rehearsal-counts.json','utf8'));
+          const c=new pg.Client({connectionString:process.env.DATABASE_URL, connectionTimeoutMillis:15000, statement_timeout:60000});
+          try {
+            await c.connect();
+            const counts=await c.query('SELECT (SELECT count(*) FROM opportunities) AS opportunities, (SELECT count(*) FROM opportunity_revisions) AS revisions');
+            assert.deepEqual(counts.rows[0],before);
+            const rows=await c.query('SELECT slug,legacy_record,review_status,verification_status FROM opportunities WHERE slug=ANY($1::text[])',[input.map(r=>r.slug)]);
+            assert.equal(rows.rowCount,input.length);
+            const bySlug=new Map(rows.rows.map(r=>[r.slug,r]));
+            for (const original of input) {
+              const r=bySlug.get(original.slug);
+              assert.deepEqual(r.legacy_record,original);
+              assert.equal(r.review_status,'pending');
+              assert.equal(r.verification_status,'needs_review');
+            }
+            const summary=`## Rehearsal passed\n\n- Source snapshot: fdd4e4e731f8e029fd5e7c7a2197a585bafdc210\n- Reconciled records: ${input.length}\n- Opportunity and revision counts unchanged on second import.\n- Every original JSON record preserved.\n- Production was not targeted.\n`;
+            console.log(summary);
+            if(process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY,summary);
+          } catch { console.error('Rehearsal verification failed; inspect the test branch before proceeding'); process.exitCode=1; } finally { await c.end(); }
+          NODE
