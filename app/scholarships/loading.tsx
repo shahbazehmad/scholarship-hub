@@ -1,0 +1,1 @@
+export default function Loading(){return <div className="ui-container py-12" role="status" aria-label="Loading opportunity listings"><p className="mb-6 text-slate-600">Loading the directory…</p><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{[1,2,3,4,5,6].map(i=><div key={i} aria-hidden className="ui-panel h-64 bg-slate-100"/>)}</div></div>;}

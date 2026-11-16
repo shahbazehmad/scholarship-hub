@@ -1,176 +1,21 @@
-"use client";
-
-import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import ScholarshipCard from "./ScholarshipCard";
-import SearchFilterBar, { EMPTY_FILTERS, type Filters } from "./SearchFilterBar";
-import { GridIcon, ListIcon } from "./Icons";
-import type { Scholarship } from "@/lib/scholarships";
-
-const PAGE_SIZE = 12;
-const uniq = (arr: string[]) => Array.from(new Set(arr)).sort();
-
-type Sort = "newest" | "name" | "deadline";
-
-export default function ScholarshipExplorer({
-  scholarships,
-}: {
-  scholarships: Scholarship[];
-}) {
-  const params = useSearchParams();
-  const [filters, setFilters] = useState<Filters>({
-    query: params.get("q") ?? EMPTY_FILTERS.query,
-    type: params.get("type") ?? "",
-    level: params.get("level") ?? "",
-    region: params.get("region") ?? "",
-    country: params.get("country") ?? "",
-    funding: params.get("funding") ?? "",
-  });
-  const [sort, setSort] = useState<Sort>("newest");
-  const [view, setView] = useState<"grid" | "list">("grid");
-  const [visible, setVisible] = useState(PAGE_SIZE);
-
-  const updateFilters = (f: Filters) => {
-    setFilters(f);
-    setVisible(PAGE_SIZE);
-  };
-
-  const types = useMemo(() => uniq(scholarships.map((s) => s.type)), [scholarships]);
-  const levels = useMemo(() => uniq(scholarships.flatMap((s) => s.levels)), [scholarships]);
-  const regions = useMemo(() => uniq(scholarships.map((s) => s.region)), [scholarships]);
-  const countries = useMemo(() => uniq(scholarships.map((s) => s.country)), [scholarships]);
-  const fundingTypes = useMemo(() => uniq(scholarships.map((s) => s.fundingType)), [scholarships]);
-
-  const results = useMemo(() => {
-    const q = filters.query.trim().toLowerCase();
-    const list = scholarships.filter((s) => {
-      if (filters.type && s.type !== filters.type) return false;
-      if (filters.level && !s.levels.includes(filters.level)) return false;
-      if (filters.region && s.region !== filters.region) return false;
-      if (filters.country && s.country !== filters.country) return false;
-      if (filters.funding && s.fundingType !== filters.funding) return false;
-      if (!q) return true;
-      const haystack = [
-        s.name,
-        s.organization,
-        s.country,
-        s.region,
-        s.description,
-        s.funding,
-        s.eligibility,
-        s.fundingType,
-        ...s.tags,
-      ]
-        .join(" ")
-        .toLowerCase();
-      return q.split(/\s+/).every((word) => haystack.includes(word));
-    });
-    return list.sort((a, b) => {
-      if (sort === "name") return a.name.localeCompare(b.name);
-      if (sort === "deadline") {
-        if (!a.deadline && !b.deadline) return 0;
-        if (!a.deadline) return 1;
-        if (!b.deadline) return -1;
-        return a.deadline.localeCompare(b.deadline);
-      }
-      return b.addedAt.localeCompare(a.addedAt);
-    });
-  }, [scholarships, filters, sort]);
-
-  const shown = results.slice(0, visible);
-
-  return (
-    <div className="grid gap-8 lg:grid-cols-[18rem_1fr]">
-      <aside className="lg:sticky lg:top-24 lg:self-start">
-        <SearchFilterBar
-          filters={filters}
-          onChange={updateFilters}
-          types={types}
-          levels={levels}
-          regions={regions}
-          countries={countries}
-          fundingTypes={fundingTypes}
-        />
-      </aside>
-
-      <section>
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-slate-600">
-            <span className="font-semibold text-slate-900">{results.length}</span>{" "}
-            result{results.length === 1 ? "" : "s"}
-          </p>
-          <div className="flex items-center gap-3">
-            <label htmlFor="sort" className="sr-only">
-              Sort by
-            </label>
-            <select
-              id="sort"
-              value={sort}
-              onChange={(e) => setSort(e.target.value as Sort)}
-              className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
-            >
-              <option value="newest">Newest first</option>
-              <option value="deadline">Deadline soonest</option>
-              <option value="name">Name A-Z</option>
-            </select>
-            <div className="flex overflow-hidden rounded-lg border border-slate-300 bg-white">
-              <button
-                type="button"
-                aria-label="Grid view"
-                aria-pressed={view === "grid"}
-                onClick={() => setView("grid")}
-                className={`p-2 ${view === "grid" ? "bg-brand-700 text-white" : "text-slate-600 hover:bg-slate-50"}`}
-              >
-                <GridIcon className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                aria-label="List view"
-                aria-pressed={view === "list"}
-                onClick={() => setView("list")}
-                className={`p-2 ${view === "list" ? "bg-brand-700 text-white" : "text-slate-600 hover:bg-slate-50"}`}
-              >
-                <ListIcon className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {results.length > 0 ? (
-          <>
-            <div className={view === "grid" ? "grid gap-6 sm:grid-cols-2 xl:grid-cols-3" : "grid gap-4"}>
-              {shown.map((s) => (
-                <ScholarshipCard key={s.slug} scholarship={s} />
-              ))}
-            </div>
-            {visible < results.length && (
-              <div className="mt-8 text-center">
-                <button
-                  type="button"
-                  onClick={() => setVisible((v) => v + PAGE_SIZE)}
-                  className="rounded-lg border border-brand-700 px-6 py-3 text-sm font-semibold text-brand-700 hover:bg-brand-50"
-                >
-                  Show more ({results.length - visible} remaining)
-                </button>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center">
-            <p className="font-semibold text-slate-900">No matches found</p>
-            <p className="mt-1 text-sm text-slate-500">
-              Try a different keyword or clear some filters.
-            </p>
-            <button
-              type="button"
-              onClick={() => updateFilters(EMPTY_FILTERS)}
-              className="mt-4 rounded-lg bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800"
-            >
-              Reset filters
-            </button>
-          </div>
-        )}
-      </section>
-    </div>
-  );
+'use client';
+import {useEffect,useMemo,useState} from 'react';
+import {useSearchParams} from 'next/navigation';
+import ScholarshipCard from './ScholarshipCard';
+import type {Scholarship} from '@/lib/scholarships';
+type Filters={q:string;type:string;level:string;region:string;country:string;funding:string};
+const empty:Filters={q:'',type:'',level:'',region:'',country:'',funding:''};
+const keys=['q','type','level','region','country','funding'] as const;
+function read(p:{get:(key:string)=>string|null}):Filters{return {q:p.get('q')??'',type:p.get('type')??'',level:p.get('level')??'',region:p.get('region')??'',country:p.get('country')??'',funding:p.get('funding')??''};}
+export default function ScholarshipExplorer({scholarships,basePath='/scholarships'}:{scholarships:Scholarship[];basePath?:string}){
+  const params=useSearchParams(),query=params.toString();
+  const [filters,setFilters]=useState<Filters>(()=>read(params)),[sort,setSort]=useState(params.get('sort')??'newest'),[page,setPage]=useState(Number(params.get('page'))||1),[open,setOpen]=useState(false),[view,setView]=useState<'grid'|'list'>('grid');
+  useEffect(()=>{const p=new URLSearchParams(query);setFilters(read(p));setSort(p.get('sort')??'newest');setPage(Number(p.get('page'))||1);},[query]);
+  function sync(next:Filters,nextSort=sort,nextPage=1){setFilters(next);setSort(nextSort);setPage(nextPage);const p=new URLSearchParams();for(const key of keys)if(next[key])p.set(key,next[key]);if(nextSort!=='newest')p.set('sort',nextSort);if(nextPage>1)p.set('page',String(nextPage));window.history.replaceState(null,'',`${basePath}${p.size?'?'+p:''}`);}
+  const unique=(values:string[])=>[...new Set(values.filter(Boolean))].sort();
+  const options={type:unique(scholarships.map(s=>s.type)),level:unique(scholarships.flatMap(s=>s.levels)),region:unique(scholarships.map(s=>s.region)),country:unique(scholarships.map(s=>s.country)),funding:unique(scholarships.map(s=>s.fundingType))};
+  const results=useMemo(()=>scholarships.filter(s=>{if(filters.type&&s.type!==filters.type||filters.level&&!s.levels.includes(filters.level)||filters.region&&s.region!==filters.region||filters.country&&s.country!==filters.country||filters.funding&&s.fundingType!==filters.funding)return false;const hay=[s.name,s.organization,s.country,s.region,s.description,s.funding,...(s.tags??[])].join(' ').toLowerCase();return filters.q.trim().toLowerCase().split(/\s+/).filter(Boolean).every(word=>hay.includes(word));}).sort((a,b)=>sort==='name'?a.name.localeCompare(b.name):sort==='deadline'?(a.deadline??'9999').localeCompare(b.deadline??'9999'):b.addedAt.localeCompare(a.addedAt)),[scholarships,filters,sort]);
+  const pages=Math.max(1,Math.ceil(results.length/12)),current=Math.min(pages,Math.max(1,Math.floor(page)||1)),shown=results.slice((current-1)*12,current*12);
+  const labels={q:'Search',type:'Opportunity type',level:'Study level',region:'Region',country:'Country',funding:'Source funding label'};
+  return <div className="grid items-start gap-7 lg:grid-cols-[17rem_1fr]"><div><button className="ui-button mb-4 w-full justify-center lg:hidden" aria-expanded={open} aria-controls="catalog-filters" onClick={()=>setOpen(!open)}>{open?'Hide filters':'Show filters'}</button><aside id="catalog-filters" className={`${open?'block':'hidden'} ui-panel space-y-4 p-5 lg:sticky lg:top-28 lg:block`} aria-label="Filter opportunities"><div className="flex items-center justify-between"><h2 className="text-lg font-bold">Refine your search</h2><button className="text-sm font-semibold text-brand-700" onClick={()=>sync(empty)}>Reset</button></div><label className="block text-sm font-semibold" htmlFor="filter-q">Keywords<input id="filter-q" className="ui-input mt-2" value={filters.q} placeholder="Subject, name or destination" onChange={e=>sync({...filters,q:e.target.value})}/></label>{(['type','level','region','country','funding'] as const).map(key=><label key={key} htmlFor={`filter-${key}`} className="block text-sm font-semibold">{labels[key]}<select id={`filter-${key}`} className="ui-input mt-2" value={filters[key]} onChange={e=>sync({...filters,[key]:e.target.value})}><option value="">All</option>{options[key].map(v=><option key={v}>{v}</option>)}</select></label>)}<p className="text-xs leading-5 text-slate-500">Funding labels and dates come from legacy sources and require confirmation.</p></aside></div><section aria-label="Search results"><div className="ui-panel mb-5 flex flex-wrap items-center justify-between gap-4 p-4"><p role="status" aria-live="polite" className="text-sm text-slate-600"><span className="font-bold text-slate-900">{results.length}</span> matching records</p><div className="flex flex-wrap items-center gap-3"><label className="sr-only" htmlFor="catalog-sort">Sort results</label><select id="catalog-sort" className="rounded-lg border p-2 text-sm" value={sort} onChange={e=>sync(filters,e.target.value)}><option value="newest">Newest added</option><option value="name">Name A–Z</option><option value="deadline">Source-listed deadline</option></select><div className="flex gap-1" aria-label="Results layout">{(['grid','list'] as const).map(v=><button key={v} aria-pressed={view===v} onClick={()=>setView(v)} className={`rounded-lg px-3 py-2 text-sm ${view===v?'bg-brand-900 text-white':'bg-slate-100 text-slate-700'}`}>{v==='grid'?'Grid':'List'}</button>)}</div></div></div><div className="mb-4 flex flex-wrap gap-2">{keys.filter(k=>filters[k]).map(k=><button key={k} className="ui-chip" onClick={()=>sync({...filters,[k]:''})} aria-label={`Remove ${labels[k]} filter: ${filters[k]}`}>{labels[k]}: {filters[k]} <span aria-hidden>×</span></button>)}</div>{shown.length?<div className={view==='grid'?'grid gap-5 sm:grid-cols-2 xl:grid-cols-3':'grid gap-4'}>{shown.map(s=><ScholarshipCard key={s.slug} scholarship={s} view={view}/>)}</div>:<div className="ui-panel border-dashed p-10 text-center"><h2 className="text-xl font-bold">No matching records</h2><p className="mt-3 text-slate-600">Try another keyword or remove a filter. This view only includes records preserved in the current dataset.</p><button className="ui-button mt-6" onClick={()=>sync(empty)}>Clear all filters</button></div>}<nav aria-label="Result pages" className="mt-7 flex items-center justify-between gap-3"><button className="ui-secondary disabled:opacity-40" disabled={current<=1} onClick={()=>sync(filters,sort,current-1)}>Previous</button><p className="text-sm text-slate-600">Page {current} of {pages}</p><button className="ui-secondary disabled:opacity-40" disabled={current>=pages} onClick={()=>sync(filters,sort,current+1)}>Next</button></nav></section></div>;
 }

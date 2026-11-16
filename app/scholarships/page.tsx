@@ -1,37 +1,8 @@
-import type { Metadata } from "next";
-import { Suspense } from "react";
-import ScholarshipExplorer from "@/components/ScholarshipExplorer";
-import { getAllScholarships } from "@/lib/scholarships";
-
-export const revalidate = 3600;
-
-export const metadata: Metadata = {
-  title: "Browse Scholarships",
-  description:
-    "Search and filter scholarships, grants and fellowships by level, region, country and funding type.",
-};
-
-export default function ScholarshipsPage() {
-  const scholarships = getAllScholarships();
-
-  return (
-    <>
-      <div className="relative overflow-hidden bg-gradient-to-br from-brand-900 to-brand-700 text-white">
-        <div aria-hidden className="hero-pattern pointer-events-none absolute inset-0" />
-        <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            All Scholarships, Grants and Fellowships
-          </h1>
-          <p className="mt-2 max-w-2xl text-blue-50">
-            Search by keyword and narrow results by opportunity type, level, region, country and funding.
-          </p>
-        </div>
-      </div>
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <Suspense fallback={<p className="text-slate-500">Loading...</p>}>
-          <ScholarshipExplorer scholarships={scholarships} />
-        </Suspense>
-      </div>
-    </>
-  );
-}
+import type {Metadata} from 'next';
+import {Suspense} from 'react';
+import Link from 'next/link';
+import ScholarshipExplorer from '@/components/ScholarshipExplorer';
+import {legacyCatalog} from '@/lib/legacy-catalog';
+export const revalidate=3600;
+export const metadata:Metadata={title:'Explore scholarships, grants and fellowships',description:'Search legacy opportunity listings by keyword, level, region and source funding label. Confirm details with the provider.'};
+export default function ScholarshipsPage(){return <div className="ui-container py-10 sm:py-14"><p className="ui-eyebrow">Explore the possibilities</p><h1 className="mt-2 text-3xl font-extrabold tracking-tight text-brand-900 sm:text-5xl">Find your next opportunity</h1><p className="mt-4 max-w-3xl leading-7 text-slate-600">Compare scholarships, grants and fellowships. A listing or future source date does not establish that applications are open.</p><div className="my-7 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-950">Legacy directory: source claims have not completed the new verification workflow. <Link className="underline" href="/archive">View preserved past-deadline records</Link>.</div><Suspense fallback={<p role="status">Loading search controls…</p>}><ScholarshipExplorer scholarships={legacyCatalog()}/></Suspense></div>;}

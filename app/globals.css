@@ -1,26 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-  body {
-    @apply bg-slate-50 text-slate-800 antialiased;
-  }
-  :focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-500;
-  }
+  html { scroll-behavior:smooth; scroll-padding-top:7rem; }
+  body { @apply bg-slate-50 text-slate-800 antialiased; }
+  :focus-visible { outline:3px solid #0284c7; outline-offset:4px; }
+  button:not(:disabled),select { cursor:pointer; }
+  ::selection { background:#bae6fd; color:#102b55; }
 }
-
-@layer utilities {
-  /* Used on a separate overlay element so it never overrides the gradient. */
-  .hero-pattern {
-    background-image: radial-gradient(
-      rgba(255, 255, 255, 0.14) 1px,
-      transparent 1px
-    );
-    background-size: 22px 22px;
-  }
+@layer components {
+  .ui-container { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .ui-panel { @apply rounded-2xl border border-slate-200 bg-white shadow-sm; }
+  .ui-button { @apply inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand-800 px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-brand-900; }
+  .ui-secondary { @apply rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100; }
+  .ui-input { @apply min-h-11 w-full rounded-xl border border-slate-300 bg-white px-3 py-3 text-base font-normal text-slate-900; }
+  .ui-chip { @apply inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700; }
+  .ui-eyebrow { @apply text-xs font-bold uppercase tracking-widest text-sky-700; }
+  .ui-heading { @apply mt-2 text-2xl font-extrabold tracking-tight text-brand-900 sm:text-3xl; }
 }
+.hero-pattern { background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1px);background-size:24px 24px; }
+.skip-link { position:fixed;left:1rem;top:-6rem;z-index:100;border-radius:.75rem;background:white;color:#102b55;padding:1rem;box-shadow:0 4px 15px #0002; }
+.skip-link:focus { top:1rem; }
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation-duration:.01ms!important;transition-duration:.01ms!important; } }
