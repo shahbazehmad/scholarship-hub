@@ -71,7 +71,7 @@ export async function searchOpportunities(filters: OpportunityFilters = {}) {
   const bind = (v: unknown) => { values.push(v); return `$${values.length}`; };
   const clauses = ["review_status = 'approved'", 'duplicate_of IS NULL'];
   clauses.push(filters.archive ? `(archived_at IS NOT NULL OR deadline_at < now() OR confirmed_application_status IN ('closed','expired'))` : `(archived_at IS NULL AND (deadline_at IS NULL OR deadline_at >= now()) AND (confirmed_application_status IS NULL OR confirmed_application_status NOT IN ('closed','expired')))`);
-  for (const [key,column] of [['level','levels'],['field','fields'],['country','country_codes'],['funding','fundunding_categories']] as const) {
+  for (const [key,column] of [['level','levels'],['field','fields'],['country','country_codes'],['funding','funding_categories']] as const) {
     const value = text(filters[key]);
     if (value) clauses.push(`${column} @> ARRAY[${bind(key === 'country' ? value.toUpperCase() : value)}]::text[]`);
   }
